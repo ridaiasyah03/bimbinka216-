@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\Violation;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
+class ViolationsExport implements FromCollection, WithHeadings, WithMapping, WithStyles
+{
+    public function __construct(protected array $filters = []) {}
+
+    public function collection()
+    {
+        $query = Violation::with(['student.schoolClass', 'createdBy']);
+        if (!empty($this->filters['category']))  $query->where('category', $this->filters['category']);
+        if (!empty($this->filters['severity']))  $query->where('severity', $this->filters['severity']);
+        if (!empty($this->filters['date_from'])) $query->where('violation_date', '>=', $this->filters['date_from']);
+        if (!empty($this->filters['date_to']))   $query->where('violation_date', '<=', $this->filters['date_to']);
+        if (!empty($this->filters['class_id']))  $query->whereHas('student', fn($q) => $q->where('class_id', $this->filters['class_id']));
+        if (!empty($this->filters['tahun_ajaran'])) $query->where('tahun_ajaran', $this->filters['tahun_ajaran']);
+        return $query->orderByDesc('violation_date')->get();
+    }
+
+    public function headings(): array
+    {
+        return [
+            ['LAPORAN MONITORING PELANGGARAN SISWA SMPN 216 JAKARTA'],
+            ['Sistem Monitoring Perilaku dan Pelanggaran Siswa'],
+            [],
+            ['No','Tanggal','NIS','Nama Siswa','Kelas','Kategori','Sub Kategori','Keterangan','Severity','Tindak Lanjut','Dicatat Oleh']
+        ];
+    }
+
+    public function map($violation): array
+    {
+        static $i = 0;
+        $i++;
+        return [
+            $i,
+            $violation->violation_date->format('d/m/Y'),
+            $violation->student?->nis,
+            $violation->student?->full_name,
+            $violation->student?->schoolClass?->class_name,
+            $violation->category_label,
+            $violation->sub_category_label,
+            $violation->description,
+            strtoupper($violation->severity),
+            $violation->follow_up,
+            $violation->createdBy?->name,
+        ];
+    }
+
+    public function styles(Worksheet $sheet): array
+    {
+        return [
+            1 => ['font' => ['bold' => true, 'size' => 14]],
+            2 => ['font' => ['bold' => true, 'size' => 12]],
+            4 => ['font' => ['bold' => true]],
+        ];
+    }
+}
