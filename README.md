@@ -1,132 +1,65 @@
-# EduGuard-KPI 🛡️📊
-**Sistem Monitoring dan Evaluasi Kinerja Perilaku Siswa Berbasis KPI (Key Performance Indicator)**
+# EduGuard-KPI
 
-EduGuard-KPI adalah aplikasi berbasis web yang dirancang khusus untuk memfasilitasi Guru Bimbingan dan Konseling (BK) dalam memantau, mencatat, dan menganalisis dinamika perilaku siswa secara terukur. Menggunakan mesin penilaian indeks prestasi perilaku (KPI), sistem ini secara otomatis mendeteksi penurunan nilai, memicu peringatan dini (early warning), serta menghasilkan surat pernyataan pelanggaran secara instan.
+Sistem monitoring dan evaluasi perilaku siswa berbasis KPI (Key Performance Indicator) untuk Guru Bimbingan dan Konseling (BK).
 
-Aplikasi ini juga menyediakan portal publik yang memungkinkan wali murid atau pihak sekolah memantau status perkembangan perilaku siswa secara real-time hanya dengan menggunakan NIS.
+Setiap pelanggaran yang dicatat mengurangi skor KPI siswa secara otomatis. Saat skor jatuh ke zona kritis, sistem memberi peringatan dini dan membuat draf surat pernyataan dalam bentuk PDF.
 
----
+## Fitur
 
-## 🚀 Fitur Utama
+- **Dashboard BK**: ringkasan skor KPI sekolah, sebaran siswa per zona (hijau, kuning, merah), dan tren pelanggaran 6 bulan terakhir.
+- **Pemantauan kelas dan siswa**: status perilaku per kelas, profil siswa, riwayat pelanggaran, dan grafik perkembangan.
+- **Pencatatan pelanggaran**: kategori terstruktur (kehadiran, kedisiplinan, etika sosial, agresivitas, risiko tinggi, integritas) dengan penalti skor otomatis.
+- **Peringatan dini**: aktif saat skor di bawah 60, terjadi 3 pelanggaran atau lebih dalam 30 hari, pelanggaran sama berulang 3 kali, atau ada pelanggaran berat dalam 7 hari terakhir.
+- **Surat pernyataan digital**: PDF dibuat otomatis, dan scan surat yang sudah ditandatangani bisa diunggah sebagai arsip.
+- **Ekspor laporan**: PDF dan Excel dengan filter tanggal, kategori, dan kelas.
+- **Portal cek siswa**: halaman publik untuk orang tua melihat status perilaku anak.
 
-### 1. 📈 Dashboard & Analitik BK
-* **Ringkasan Sekolah**: Statistik visual seputar rata-rata skor KPI sekolah, jumlah siswa di zona hijau (Baik), kuning (Perlu Perhatian), dan merah (Risiko Tinggi).
-* **Tren Pelanggaran Bulanan**: Grafik analitik untuk memantau frekuensi pelanggaran sekolah dalam 6 bulan terakhir.
-* **Early Warning Alerts**: Notifikasi instan bagi Guru BK untuk siswa yang terdeteksi berada di zona kritis.
+## Tech Stack
 
-### 2. 🗂️ Pemantauan Kelas & Siswa
-* **Dashboard Kelas**: Informasi persentase status perilaku per kelas untuk membantu memetakan kelas-kelas yang memerlukan perhatian khusus.
-* **Profil Siswa Komprehensif**: Data lengkap siswa beserta log aktivitas historis, daftar pelanggaran, dan chart perkembangan perilaku.
+- Laravel 12 dan Laravel Breeze
+- PHP 8.2 atau lebih baru
+- MySQL, PostgreSQL, atau SQLite
+- Tailwind CSS dan Vite
+- barryvdh/laravel-dompdf dan maatwebsite/excel
 
-### 3. 📝 Pencatatan Pelanggaran Terpadu & Scoring Engine
-Pencatatan pelanggaran dengan pembagian kategori terstruktur dan penalti skor otomatis terhadap dimensi KPI siswa:
-* **Kehadiran**: Terlambat (-5), Bolos (-15), Alpa (-20).
-* **Kedisiplinan**: Atribut (-5), Aturan (-10), Administratif (-10).
-* **Etika Sosial**: Menghina (-15), Bullying Verbal (-20), Konflik Sosial (-25).
-* **Agresivitas**: Provokasi (-20), Ancaman (-25).
-* **Risiko Tinggi**: Berkelahi (-35), Rokok/Vape (-40), Pelanggaran Berat (-50).
-* **Integritas**: Berbohong (-15), Mengambil Barang Orang Lain (-30).
+## Instalasi
 
-### 4. ⚠️ Sistem Peringatan Dini (Early Warning System)
-Mendeteksi secara otomatis 4 kondisi kritis siswa:
-1. Skor KPI keseluruhan turun di bawah 60 (Zona Merah).
-2. Memiliki $\ge$ 3 pelanggaran dalam waktu 30 hari terakhir.
-3. Melakukan pelanggaran berulang yang sama sebanyak 3 kali atau lebih.
-4. Terdeteksi melakukan pelanggaran dengan tingkat keparahan **Berat** dalam 7 hari terakhir.
-
-### 5. 📄 Surat Pernyataan Digital & Upload Scan
-* **Auto-Generated PDF**: Setiap pencatatan pelanggaran otomatis menghasilkan draf Surat Pernyataan resmi berformat PDF yang siap dicetak dan ditandatangani oleh siswa/orang tua.
-* **Upload Bukti Fisik**: BK dapat mengunggah file hasil scan/foto surat pernyataan fisik yang telah ditandatangani untuk keperluan arsip digital.
-
-### 6. 📊 Ekspor Data (Laporan)
-* Unduh laporan data pelanggaran serta data kpi siswa ke dalam format **PDF** atau **Excel** secara dinamis berdasarkan filter tanggal, kategori, dan kelas.
-
-### 7. 🔍 Portal Cek Siswa (Public Lookup)
-* Halaman pencarian publik bebas login bagi orang tua/wali siswa. Cukup masukkan NIS siswa untuk melihat status peringatan perilaku, tren pelanggaran, dan rekomendasi pembinaan mandiri secara transparan.
-
----
-
-## 🛠️ Tech Stack & Kebutuhan Sistem
-
-* **Framework**: [Laravel 12.x](https://laravel.com) & [Laravel Breeze](https://laravel.com/docs/12.x/breeze) (Auth)
-* **PHP**: `>= 8.2`
-* **Database**: SQLite (Default) / MySQL / PostgreSQL
-* **Front-end**: HTML, Vanilla CSS & Tailwind CSS (dikelola via Vite)
-* **Ekspor PDF**: `barryvdh/laravel-dompdf`
-* **Ekspor Excel**: `maatwebsite/excel`
-
----
-
-## 💾 Panduan Instalasi & Konfigurasi
-
-Ikuti langkah-langkah berikut untuk menjalankan EduGuard-KPI di lingkungan lokal Anda:
-
-### 1. Clone Repositori
 ```bash
-git clone https://github.com/username/EduGuard-KPI.git
-cd EduGuard-KPI
-```
+git clone https://github.com/ridaiasyah03/bimbinka216-.git
+cd bimbinka216-
 
-### 2. Pasang Dependensi (Composer & NPM)
-```bash
-# Dependensi PHP
 composer install
-
-# Dependensi Frontend
 npm install
-```
 
-### 3. Konfigurasi Environment File
-Salin file konfigurasi `.env.example` ke `.env`:
-```bash
 cp .env.example .env
-```
-Secara default, Laravel menggunakan database **SQLite**. Jika Anda menggunakan SQLite, pastikan database kosong telah terbentuk di `database/database.sqlite` (atau sistem akan otomatis membuatnya ketika menjalankan migration).
-
-### 4. Generate Application Key
-```bash
 php artisan key:generate
 ```
 
-### 5. Jalankan Migrasi & Database Seeding
-Jalankan perintah ini untuk membangun tabel database beserta akun demo Guru BK, kelas (7-9), data siswa dummy, dan log contoh pelanggaran:
+Isi koneksi database di `.env`, lalu jalankan:
+
 ```bash
 php artisan migrate --seed
-```
-
-### 6. Jalankan Link Storage
-Agar file PDF surat pernyataan dan upload scan dapat diakses dengan baik oleh publik:
-```bash
 php artisan storage:link
-```
-
-### 7. Jalankan Server Lokal
-Gunakan perintah custom composer dev untuk menjalankan server, antrean queue (untuk pemrosesan latar belakang), dan hot-reload asset Vite sekaligus:
-```bash
 composer dev
 ```
-*Atau jalankan secara terpisah menggunakan dua terminal:*
-* **Terminal 1**: `php artisan serve`
-* **Terminal 2**: `npm run dev`
 
-Aplikasi sekarang dapat diakses melalui browser di `http://localhost:8000` (atau port yang ditentukan).
+Aplikasi berjalan di `http://localhost:8000`.
 
----
+## Akun Awal
 
-## 🔑 Akun Demo (Default Credentials)
+Seeder membuat akun Guru BK awal beserta data contoh (kelas dan siswa dummy). Lihat `database/seeders/DatabaseSeeder.php` untuk detailnya, dan **ganti password akun tersebut segera** setelah instalasi, terutama bila aplikasi dipasang di server publik.
 
-Gunakan akun berikut untuk masuk sebagai administrator/Guru BK:
+## Keamanan dan Privasi
 
-* **Email**: `gurubk@eduguard.sch.id`
-* **Password**: `password`
+- Jangan pernah meng-commit file `.env`, dump database, atau data siswa asli.
+- Seluruh data pada repositori ini adalah data contoh (dummy).
 
----
+## Struktur Penting
 
-## 📂 Struktur Penting Aplikasi
-
-* [DatabaseSeeder.php](file:///c:/Users/KIEL/eduguard-kpi/database/seeders/DatabaseSeeder.php) - Pengatur data dummy untuk kelas, siswa, dan sampel pelanggaran.
-* [ViolationService.php](file:///c:/Users/KIEL/eduguard-kpi/app/Services/ViolationService.php) - Logika alur pencatatan pelanggaran, perhitungan KPI, early warning, dan generasi surat pernyataan.
-* [KpiEngine.php](file:///c:/Users/KIEL/eduguard-kpi/app/Services/KpiEngine.php) - Mesin kalkulasi pengurangan skor KPI per pelanggaran dan penghitung skor tren perilaku.
-* [EarlyWarningService.php](file:///c:/Users/KIEL/eduguard-kpi/app/Services/EarlyWarningService.php) - Logika pengecekan status kritis siswa sekolah.
-* [PdfGeneratorService.php](file:///c:/Users/KIEL/eduguard-kpi/app/Services/PdfGeneratorService.php) - Pembuatan dokumen PDF Surat Pernyataan dan Laporan Siswa.
-* [statement-letter.blade.php](file:///c:/Users/KIEL/eduguard-kpi/resources/views/pdf/statement-letter.blade.php) - Template HTML/Blade untuk cetak Surat Pernyataan resmi.
+| File | Fungsi |
+|---|---|
+| `app/Services/KpiEngine.php` | Perhitungan penalti dan skor KPI |
+| `app/Services/EarlyWarningService.php` | Pengecekan kondisi kritis siswa |
+| `app/Services/ViolationService.php` | Alur pencatatan pelanggaran |
+| `app/Services/PdfGeneratorService.php` | Pembuatan PDF surat dan laporan |
+| `database/seeders/DatabaseSeeder.php` | Data contoh |
